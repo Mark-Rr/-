@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>登陆界面</title>
+  <link rel="stylesheet" type="text/css" href="/admin/css/login.css">
+</head>
+<body>
+
+  <div>
+    <img src="/admin/img/body.png" width="100%" height="100%">
+    <div>
+      <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="btn">注册博客</button>
+    </div>
+  </div>
+
+  <div id="id01" class="modal">
+
+    <form class="modal-content animate" action="/reg/b" method='post' id="loginForm">
+      <div class="imgcontainer" style="z-index:11;">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal" style="z-index:12;">&times;</span>
+        <img src="/admin/img/reg.png" alt="Avatar" class="avatar">
+        <h2>-博客用户注册-</h2>
+      </div>
+
+      <div class="container">
+         <label style="color:red">{{message}}</label><br>
+        <label>邮件地址：</label>
+        <input type="text" placeholder="输入邮件地址" name="email" class="email" >
+       <label>用户名：</label>
+        <input type="text" placeholder="输入姓名" name="username" class="username" >
+        <label>密码：</label>
+        <input type="password" placeholder="输入密码" name="password" class="password" >
+         <label>角色：</label>
+        <input type="text"  name="role" class="role" value='normal'readonly  >
+        
+        <input type="submit" value="注册">
+
+        
+      </div>
+
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">取消</button>
+
+        <span class="psw">忘记<a href="#">密码</a></span>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript"  src='/admin/js/display.js'>
+  </script>
+  <script src="/admin/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/admin/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/admin/js/common.js"></script>
+  <script type="text/javascript">
+
+$('#loginForm').on('submit',function () {
+   // var result = serializeToJson($(this));
+   // console.log(result);
+   // 获取表单内容以对象的形式
+  var  result  = serializeToJson($(this));
+   //验证
+  if(result.email.trim().length==0){
+      alert('请输入邮件地址');
+       return false;
+  }
+     if(result.password.trim().length == 0){
+          alert('请输入密码');
+          return false;
+     }
+
+
+});
+  </script>
+</body>
+</html>

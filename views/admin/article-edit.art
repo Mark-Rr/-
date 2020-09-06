@@ -1,0 +1,88 @@
+  {{extend './common/layout'}}
+{{block 'main'}}
+  {{include './common/header.art'}}
+    <!-- 主体内容 -->
+    <div class="content">
+        {{include './common/aside.art'}}
+        <div class="main">
+            <!-- 分类标题 -->
+            <div class="title">
+                <h4>5b9a716cb2d2bf17706bcc0a</h4>
+            </div>
+            <!-- /分类标题 -->
+             <!-- 上传内容需要二进制，则添加enctype='multipart/form-data' -->
+            <form class="form-container" action='{{link}}' method='post' enctype='multipart/form-data'>
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control" placeholder="请输入文章标题" name='title' value='{{article&&article.title}}'>
+                </div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <input type="text" class="form-control" readonly name='author'value='{{@userInfo._id}}' >
+                </div>
+                <div class="form-group">
+                    <label>发布时间</label>
+                    <input type="date" class="form-control" name='publishDate'value='{{article&&dateFormat(article.publishDate,'yyyy-mm-dd')}}'>
+                </div>
+                
+                <div class="form-group">
+                   <label for="exampleInputFile">文章封面</label>
+                    <!-- 上传文件类型的需要内容为二进制 -->
+                       <!-- multiple属性表示可以上传多个文件 -->
+                   <input type="file" name='cover' id='file' >
+                   <div class="thumbnail-waper">
+                       <img class="img-thumbnail" src="{{article&&article.cover}}" id='preview'>
+                   </div>
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea class="form-control" id="editor" name='content'
+                   >{{article&&article.content}}</textarea>
+                </div>
+                <div class="buttons">
+                    <input type="submit" class="btn btn-primary" value='{{button}}'>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    {{/block}}
+    {{block 'script'}}
+    <script src="lib/ckeditor5/ckeditor.js"></script>
+    <script type="text/javascript">
+    
+        let editor;
+        ClassicEditor
+                .create( document.querySelector('#editor'))
+                .then(newEditor => {
+                    editor = newEditor;
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+
+        // 获取数据
+        // const editorData = editor.getData();
+
+        //当前file类型input选择完文件后发生onchange事件
+
+     document.querySelector('#file').onchange=function(){
+
+            //1.创建文件读取对象
+             var reader = new FileReader();
+            //2.读取用户选择的文件
+            reader.readAsDataURL(this.files[0]);
+            //3.监听文件下载(读取)状况
+            reader.onload =function(){
+            //输出文件的二进制编码
+              console.log(reader.result);
+           //把reader.result给img标签添加属性src
+              document.querySelector('#preview').src=reader.result;
+              //
+            }
+     }
+
+    </script>
+    {{/block}}
+    
+
